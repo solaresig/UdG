@@ -64,7 +64,7 @@ prima$periodicidad<-tolower(ifelse(!is.na(prima$periodicidad), prima$periodicida
 primna<-prima[which(is.na(prima$adbruto)),]
 primna<-left_join( primna, subset(base, select=c("id", "menbruto")))
 primna$pro<-as.numeric(primna$dias)/30
-primna$adbruto<-ifelse(!is.na(primna$per), primna$per*primna$menbruto, primna$pro*primna$menbruto)
+primna$adbruto<-ifelse(!is.na(primna$per), primna$per*primna$menbruto/100, primna$pro*primna$menbruto)
 prima2<-rbind(subset(prima,!is.na(prima$adbruto)), 
               subset(primna, select=c("id", "denominacion", "adbruto", "adneto", "periodicidad", "per", "dias")))
 prima3<-prima2[which(!is.na(prima2$adbruto)),]
@@ -88,4 +88,4 @@ completo3<-left_join(completo3, tcompleto)
 completo4<-rbind(completo3, completona)
 completo4$total<-completo4$menbruto+completo4$estimulos
 completo4$name<-ifelse(completo4$name==", ", "Anon", completo4$name)
-write.csv(completo, "udg.csv")
+write.csv(completo4, "udg.csv")
